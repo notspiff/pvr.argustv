@@ -36,6 +36,7 @@ ELSE(WIN32)
                       ${XBMC_INCLUDE_DIR}
                       ${PROJECT_SOURCE_DIR}/src)
   ADD_DEFINITIONS(-DTARGET_LINUX)
+  SET(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} -fPIC)
 ENDIF(WIN32)
 
 SET(SOURCES src/activerecording.cpp
@@ -59,7 +60,8 @@ ADD_SUBDIRECTORY(src/lib/tsreader)
 ADD_LIBRARY(pvr.argustv ${SOURCES})
 ADD_DEPENDENCIES(pvr.argustv tsreader)
 IF(NOT WIN32)
-  TARGET_LINK_LIBRARIES(pvr.argustv ${xbmcplatform_LIBRARIES} tsreader)
+  TARGET_LINK_LIBRARIES(pvr.argustv ${xbmcplatform_LIBRARIES}
+                                    ${JSONCPP_LIBRARY} tsreader)
   set(CMAKE_SHARED_LINKER_FLAGS_RELEASE "-s")
   set(CMAKE_MODULE_LINKER_FLAGS_RELEASE "-s")
 ENDIF(NOT WIN32)
