@@ -11,6 +11,8 @@ ENABLE_LANGUAGE(CXX)
 
 OPTION(PACKAGE_ZIP "Package Zip file?" OFF)
 
+FIND_PACKAGE(JsonCpp REQUIRED)
+
 IF(WIN32)
   SET(BINDING_FILE ${XBMC_BINDINGS}.zip)
   message (STATUS "downloading XBMC bindings: " ${BINDING_FILE})
@@ -30,7 +32,10 @@ ELSE(WIN32)
   FIND_PATH(XBMC_INCLUDE_DIR xbmc/xbmc_pvr_dll.h)
   FIND_PACKAGE(xbmcplatform REQUIRED)
   INCLUDE_DIRECTORIES(${xbmcplatform_INCLUDE_DIRS}
-                      ${XBMC_INCLUDE_DIR})
+                      ${JSONCPP_INCLUDE_DIR}
+                      ${XBMC_INCLUDE_DIR}
+                      ${PROJECT_SOURCE_DIR}/src)
+  ADD_DEFINITIONS(-DTARGET_LINUX)
 ENDIF(WIN32)
 
 SET(SOURCES src/activerecording.cpp
@@ -49,12 +54,12 @@ SET(SOURCES src/activerecording.cpp
             src/uri.cpp
             src/utils.cpp)
 
-ADD_SUBDIRECTORY(lib/tsreader)
+ADD_SUBDIRECTORY(src/lib/tsreader)
 
 ADD_LIBRARY(pvr.argustv ${SOURCES})
 ADD_DEPENDENCIES(pvr.argustv tsreader)
 IF(NOT WIN32)
-  TARGET_LINK_LIBRARIES(pvr.argustv ${xbmcplatform_LIBRARIES})
+  TARGET_LINK_LIBRARIES(pvr.argustv ${xbmcplatform_LIBRARIES} tsreader)
   set(CMAKE_SHARED_LINKER_FLAGS_RELEASE "-s")
   set(CMAKE_MODULE_LINKER_FLAGS_RELEASE "-s")
 ENDIF(NOT WIN32)

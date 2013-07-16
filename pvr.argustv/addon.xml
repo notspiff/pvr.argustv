@@ -13,7 +13,7 @@
     library_linux="pvr.argustv.so"
     library_osx="pvr.argustv.so"
     library_wingl="pvr.argustv.dll"
-    library_windx="pvr.argustv..dll"
+    library_windx="pvr.argustv.dll"
     library_android="libpvr.argustv.so"/>
   <extension point="xbmc.addon.metadata">
     <summary lang="af">XBMC voorprogram vir die ARGUS TV PVR http://www.argus-tv.com//</summary>

@@ -23,9 +23,9 @@
 #define __EPG_H
 
 #include <string>
-#include "xbmc_addon_types.h"
-#include "libXBMC_addon.h"
-#include "libXBMC_pvr.h"
+#include "xbmc/xbmc_addon_types.h"
+#include "xbmc/libXBMC_addon.h"
+#include "xbmc/libXBMC_pvr.h"
 #include <json/json.h>
 
 class cEpg

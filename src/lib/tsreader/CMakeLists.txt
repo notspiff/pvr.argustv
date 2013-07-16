@@ -8,4 +8,4 @@ SET(SOURCES FileReader.cpp
             MultiFileReader.cpp
             TSReader.cpp)
 
-ADD_LIBRARY(tsreader ${SOURCES})
+ADD_LIBRARY(tsreader STATIC ${SOURCES})

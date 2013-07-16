@@ -16,7 +16,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "platform/threads/threads.h"
+#include "xbmc/threads/threads.h"
 
 class CKeepAliveThread : public PLATFORM::CThread
 {

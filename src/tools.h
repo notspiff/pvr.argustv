@@ -23,7 +23,7 @@
 #define __TOOLS_H
 
 #include "client.h"
-#include "platform/util/StdString.h"
+#include "xbmc/util/StdString.h"
 #include <errno.h>
 #include <fcntl.h>
 #include <stddef.h>

@@ -18,7 +18,7 @@
  *
  */
 
-#include "platform/os.h"
+#include "xbmc/os.h"
 #include "client.h" //for XBMC->Log
 #include "utils.h"
 #include "argustvrpc.h"

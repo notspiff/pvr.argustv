@@ -17,12 +17,12 @@
  *
  */
 
-#include "platform/os.h"
+#include "xbmc/os.h"
 
 #include <vector>
 
 /* Master defines for client control */
-#include "xbmc_pvr_types.h"
+#include "xbmc/xbmc_pvr_types.h"
 
 #include "channel.h"
 #include "recording.h"

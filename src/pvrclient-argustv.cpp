@@ -28,8 +28,8 @@
 #include "utils.h"
 #include "pvrclient-argustv.h"
 #include "argustvrpc.h"
-#include "platform/util/timeutils.h"
-#include "platform/util/StdString.h"
+#include "xbmc/util/timeutils.h"
+#include "xbmc/util/StdString.h"
 
 #include "lib/tsreader/TSReader.h"
 

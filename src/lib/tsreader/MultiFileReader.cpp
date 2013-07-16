@@ -37,14 +37,14 @@
 #include <string>
 #include "utils.h"
 #include <algorithm>
-#include "platform/util/timeutils.h"
-#include "platform/util/StdString.h"
+#include "xbmc/util/timeutils.h"
+#include "xbmc/util/StdString.h"
 
 #include <limits.h>
 
 #if !defined(TARGET_WINDOWS)
 #include <sys/time.h>
-#include "platform/os.h"
+#include "xbmc/os.h"
 #define SUCCEEDED(hr) (((HRESULT)(hr)) >= 0)
 #endif
 
