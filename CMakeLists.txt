@@ -16,7 +16,6 @@ INCLUDE_DIRECTORIES(${xbmcplatform_INCLUDE_DIRS}
                     ${PROJECT_SOURCE_DIR}/src)
 
 IF (NOT WIN32)
-  include(AddOptions.cmake)
   add_options(ALL_LANGUAGES ALL_BUILDS "-fPIC")
 ENDIF(NOT WIN32)
 
