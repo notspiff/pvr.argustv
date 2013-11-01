@@ -1,3 +1,4 @@
+find_package(PkgConfig)
 if(PKG_CONFIG_FOUND)
   pkg_check_modules (JSONCPP jsoncpp)
 endif()
@@ -15,7 +16,11 @@ if(NOT JSONCPP_FOUND)
                       URL http://garr.dl.sourceforge.net/project/jsoncpp/jsoncpp/0.5.0/jsoncpp-src-0.5.0.tar.gz
                       PREFIX JsonCpp
                       PATCH_COMMAND patch -p0 < ${PROJECT_SOURCE_DIR}/01-jsoncpp-add-cmake-buildsystem.patch
-                      CMAKE_ARGS -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE} -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>)
+                      CMAKE_ARGS -DCMAKE_CXX_FLAGS=-fPIC
+                                 -DBUILD_SHARED_LIBS=0
+                                 -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
+                                 -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+                                 -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>)
   set(JSONCPP_INCLUDE_DIRS ${CMAKE_BINARY_DIR}/JsonCpp/include/jsoncpp)
   set(JSONCPP_LIBRARIES ${CMAKE_BINARY_DIR}/JsonCpp/lib/libjsoncpp.a)
 endif()
