@@ -9,8 +9,6 @@ ENABLE_LANGUAGE(CXX)
 FIND_PACKAGE(xbmc REQUIRED)
 FIND_PACKAGE(xbmcplatform REQUIRED)
 
-addon_version(pvr.argustv ARGUSTV)
-
 INCLUDE_DIRECTORIES(${xbmcplatform_INCLUDE_DIRS}
                     ${XBMC_INCLUDE_DIR}
                     ${PROJECT_SOURCE_DIR}/src)
@@ -19,21 +17,21 @@ IF (NOT WIN32)
   add_options(ALL_LANGUAGES ALL_BUILDS "-fPIC")
 ENDIF(NOT WIN32)
 
-SET(SOURCES src/activerecording.cpp
-            src/argustvrpc.cpp
-            src/channel.cpp
-            src/client.cpp
-            src/epg.cpp
-            src/guideprogram.cpp
-            src/KeepAliveThread.cpp
-            src/pvrclient-argustv.cpp
-            src/recording.cpp
-            src/recordinggroup.cpp
-            src/recordingsummary.cpp
-            src/tools.cpp
-            src/upcomingrecording.cpp
-            src/uri.cpp
-            src/utils.cpp)
+SET(ARGUSTV_SOURCES src/activerecording.cpp
+                    src/argustvrpc.cpp
+                    src/channel.cpp
+                    src/client.cpp
+                    src/epg.cpp
+                    src/guideprogram.cpp
+                    src/KeepAliveThread.cpp
+                    src/pvrclient-argustv.cpp
+                    src/recording.cpp
+                    src/recordinggroup.cpp
+                    src/recordingsummary.cpp
+                    src/tools.cpp
+                    src/upcomingrecording.cpp
+                    src/uri.cpp
+                    src/utils.cpp)
 
 SET(DEPLIBS ${xbmcplatform_LIBRARIES} tsreader)
 
@@ -57,5 +55,4 @@ INCLUDE_DIRECTORIES(${INCLUDES})
 
 ADD_SUBDIRECTORY(src/lib/tsreader)
 
-build_addon(pvr.argustv SOURCES DEPLIBS ARGUSTV_VERSION)
-install_addon(pvr.argustv ${ARGUSTV_VERSION})
+build_addon(pvr.argustv ARGUSTV DEPLIBS)
