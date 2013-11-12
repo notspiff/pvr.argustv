@@ -189,44 +189,6 @@ namespace ArgusTV
   }
 
   /*
-   * \brief Retrieve the TV channels that are in the guide
-   */
-  int RequestGuideChannelList()
-  {
-    Json::Value root;
-    int retval = E_FAILED;
-
-    retval = ArgusTVJSONRPC("ArgusTV/Guide/Channels/Television", "", root);
-
-    if(retval >= 0)
-    {
-      if( root.type() == Json::arrayValue)
-      {
-        int size = root.size();
-
-        // parse channel list
-        for ( int index =0; index < size; ++index )
-        {
-          std::string name = root[index]["Name"].asString();
-          XBMC->Log(LOG_DEBUG, "Found channel %i: %s\n", index, name.c_str());
-        }
-        return size;
-      }
-      else
-      {
-        XBMC->Log(LOG_DEBUG, "Unknown response format. Expected Json::arrayValue\n");
-        return -1;
-      }
-    }
-    else
-    {
-      XBMC->Log(LOG_DEBUG, "RequestChannelList failed. Return value: %i\n", retval);
-    }
-
-    return retval;
-  }
-
-  /*
    * \brief Get the logo for a channel
    * \param channelGUID GUID of the channel
    */
@@ -261,7 +223,6 @@ namespace ArgusTV
     char command[512];
 
     snprintf(command, 512, "ArgusTV/Scheduler/ChannelLogo/%s/100/100/false/%d-%02d-%02d", channelGUID.c_str(), 
-    //snprintf(command, 512, "ArgusTV/Scheduler/ChannelLogo/%s/100/100/false/2011-01-01", channelGUID.c_str(), 
       modificationtime->tm_year + 1900, modificationtime->tm_mon + 1, modificationtime->tm_mday);
 
     long http_response;
@@ -419,25 +380,6 @@ namespace ArgusTV
 
     return retval;
   }
-
-#if FALSE
-  /**
-   * \brief Fetch the Logo for the given channel id
-   * \param channel_id       String containing the 4TR channel_id
-   * \param filename         filename returned here
-   */
-  int GetChannelLogo(const std::string& channel_id, std::string& filename)
-  {
-    char command[512];
-
-    snprintf(command, 512, "ArgusTV/Scheduler/ChannelLogo/%s/100/100/false/2011-01-01", channel_id.c_str());
-    
-    filename = _tempnam(NULL, "atvico");
-    int retval = ArgusTVRPCToFile(command, "", filename);
-
-    return retval;
-  }
-#endif
 
   /*
    * \brief Ping core service.
@@ -763,25 +705,25 @@ namespace ArgusTV
     return retval;
   }
 
-  int GetRecordingsForTitleUsingPOSTData(const std::string& title, Json::Value& response)
+  int GetFullRecordingsForTitle(const std::string& title, Json::Value& response)
   {
-    XBMC->Log(LOG_DEBUG, "GetRecordingsForTitleUsingPOSTData(\"%s\")", title.c_str());
-    std::string command = "ArgusTV/Control/GetRecordingsForProgramTitle/Television?includeNonExisting=false";
-    std::string arguments = "\"" + title + "\"";
+    XBMC->Log(LOG_DEBUG, "GetFullRecordingsForTitle(\"%s\")", title.c_str());
+    std::string command = "ArgusTV/Control/GetFullRecordings/Television?includeNonExisting=false";
+    Json::Value jsArgument;
+    jsArgument["ScheduleId"] = Json::nullValue;
+    jsArgument["ProgramTitle"] = title;
+    jsArgument["Category"] = Json::nullValue;
+    jsArgument["ChannelId"] = Json::nullValue;
+    Json::FastWriter writer;
+    std::string arguments = writer.write(jsArgument);
 
     int retval = ArgusTV::ArgusTVJSONRPC(command, arguments, response);
     if (retval < 0)
     {
-      XBMC->Log(LOG_NOTICE, "GetRecordingsForTitleUsingPOSTData remote call failed.");
+      XBMC->Log(LOG_NOTICE, "GetFullRecordingsForTitle remote call failed. (%d)", retval);
     }
+
     return retval;
-  }
-
-  int GetRecordingsForTitle(const std::string& title, Json::Value& response)
-  {
-    XBMC->Log(LOG_DEBUG, "GetRecordingsForTitle");
-
-    return GetRecordingsForTitleUsingPOSTData(title, response);
   }
 
   int GetRecordingById(const std::string& id, Json::Value& response)
@@ -1193,11 +1135,13 @@ namespace ArgusTV
 
     time_t now = time(NULL);
     std::string modifiedtime = TimeTToWCFDate(mktime(localtime(&now)));
+    CStdString modifiedtitle = title;
+    modifiedtitle.Replace("\"", "\\\"");
     char arguments[1024];
     snprintf( arguments, sizeof(arguments),
       "{\"ChannelType\":0,\"IsActive\":true,\"IsOneTime\":true,\"KeepUntilMode\":\"%i\",\"KeepUntilValue\":\"%i\",\"LastModifiedTime\":\"%s\",\"Name\":\"%s (manual)\",\"PostRecordSeconds\":%i,\"PreRecordSeconds\":%i,\"ProcessingCommands\":[],\"RecordingFileFormatId\":null,"
       "\"Rules\":[{\"Arguments\":[\"%i-%02i-%02iT%02i:%02i:%02i\", \"%02i:%02i:%02i\"],\"Type\":\"ManualSchedule\"},{\"Arguments\":[\"%s\"],\"Type\":\"Channels\"}],\"ScheduleId\":\"00000000-0000-0000-0000-000000000000\",\"SchedulePriority\":0,\"ScheduleType\":82,\"Version\":0}",
-      lifetimeToKeepUntilMode(lifetime), lifetimeToKeepUntilValue(lifetime), modifiedtime.c_str(), title.c_str(), postrecordseconds, prerecordseconds,
+      lifetimeToKeepUntilMode(lifetime), lifetimeToKeepUntilValue(lifetime), modifiedtime.c_str(), modifiedtitle.c_str(), postrecordseconds, prerecordseconds,
       tm_start.tm_year + 1900, tm_start.tm_mon + 1, tm_start.tm_mday,
       tm_start.tm_hour, tm_start.tm_min, tm_start.tm_sec,
       duration_hrs, duration_min, duration_sec,
@@ -1363,56 +1307,6 @@ namespace ArgusTV
       wcfdate = result;
     }
     return wcfdate;
-  }
-
-  // transform [\\nascat\qrecordings\NCIS\2012-05-15_20-30_SBS 6_NCIS.ts]
-  // into      [smb://user:password@nascat/qrecordings/NCIS/2012-05-15_20-30_SBS 6_NCIS.ts]
-  std::string ToCIFS(std::string& UNCName)
-  {
-    std::string CIFSname = UNCName;
-    std::string SMBPrefix = "smb://";
-    if (g_szUser.length() > 0)
-    {
-      SMBPrefix += g_szUser;
-      if (g_szPass.length() > 0)
-      {
-        SMBPrefix += ":" + g_szPass;
-      }
-    }
-    else
-    {
-      SMBPrefix += "Guest";
-    }
-    SMBPrefix += "@";
-    size_t found;
-    while ((found = CIFSname.find("\\")) != std::string::npos)
-    {
-      CIFSname.replace(found, 1, "/");
-    }
-    CIFSname.erase(0,2);
-    CIFSname.insert(0, SMBPrefix);
-    return CIFSname;
-  }
-
-
-  // transform [smb://user:password@nascat/qrecordings/NCIS/2012-05-15_20-30_SBS 6_NCIS.ts]
-  // into      [\\nascat\qrecordings\NCIS\2012-05-15_20-30_SBS 6_NCIS.ts]
-  std::string ToUNC(std::string& CIFSName)
-  {
-    std::string UNCname = CIFSName;
-
-    UNCname.erase(0,6);
-    size_t found = UNCname.find("@");
-    if (found != std::string::npos) {
-      UNCname.erase(0, found+1);
-    }
-
-    while ((found = UNCname.find("/")) != std::string::npos)
-    {
-      UNCname.replace(found, 1, "\\");
-    }
-    UNCname.insert(0, "\\\\");
-    return UNCname;
   }
 
 }
