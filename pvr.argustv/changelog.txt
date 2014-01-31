@@ -1,3 +1,20 @@
+v1.9.172 (23-12-2013)
+- base new timers on templates retrieved from ARGUS TV server.
+v1.9.171 (11-12-2013)
+- removed redundant notification
+v1.9.170 (28-09-2013)
+- add timeshift buffer functions
+v1.8.170 (23-10-2013)
+- Fixes deleting of recordings (regression)
+- Improves load time of recordings
+v1.8.169 (28-09-2013)
+- Fixes playing recordings on Windows
+- Migrated all UNC share name handling to single method
+v1.8.168 (12-09-2013)
+- Minimum ARGUS TV version 2.1 required
+- Switched to integer ID's
+v1.8.167 (29-08-2013)
+- Fixed Live-TV XBMC Gotham
 v1.8.166 (08-06-2013)
 - sync with PVR API v1.8.0
 v1.7.166 (13-03-2013)
