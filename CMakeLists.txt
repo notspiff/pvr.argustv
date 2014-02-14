@@ -22,6 +22,7 @@ set(ARGUSTV_SOURCES src/activerecording.cpp
                     src/channel.cpp
                     src/client.cpp
                     src/epg.cpp
+                    src/EventsThread.cpp
                     src/guideprogram.cpp
                     src/KeepAliveThread.cpp
                     src/pvrclient-argustv.cpp
