@@ -18,7 +18,7 @@
  *
  */
 
-#include "xbmc/os.h"
+#include "kodi/os.h"
 #include "client.h" //for XBMC->Log
 #include "utils.h"
 #include "argustvrpc.h"

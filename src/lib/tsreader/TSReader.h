@@ -30,7 +30,7 @@
 
 #include "client.h"
 #include "FileReader.h"
-#include "xbmc/util/StdString.h"
+#include "kodi/util/StdString.h"
 
 class CTsReader
 {

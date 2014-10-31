@@ -23,10 +23,10 @@
 #ifndef CLIENT_H
 #define CLIENT_H
 
-#include "xbmc/util/StdString.h"
-#include "xbmc/libXBMC_addon.h"
-#include "xbmc/libXBMC_pvr.h"
-#include "xbmc/libXBMC_gui.h"
+#include "kodi/util/StdString.h"
+#include "kodi/libXBMC_addon.h"
+#include "kodi/libXBMC_pvr.h"
+#include "kodi/libXBMC_gui.h"
 
 #define DEFAULT_HOST                  "127.0.0.1"
 #define DEFAULT_PORT                  49943

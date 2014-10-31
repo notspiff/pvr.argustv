@@ -19,7 +19,7 @@
  *
  */
 
-#include "xbmc/threads/threads.h"
+#include "kodi/threads/threads.h"
 
 class CEventsThread : public PLATFORM::CThread
 {

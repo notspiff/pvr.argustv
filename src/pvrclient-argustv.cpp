@@ -29,8 +29,8 @@
 #include "utils.h"
 #include "pvrclient-argustv.h"
 #include "argustvrpc.h"
-#include "xbmc/util/timeutils.h"
-#include "xbmc/util/StdString.h"
+#include "kodi/util/timeutils.h"
+#include "kodi/util/StdString.h"
 
 #include "lib/tsreader/TSReader.h"
 

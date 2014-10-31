@@ -25,13 +25,13 @@
 
 #include <stdio.h>
 #include <sys/stat.h>
-#include "xbmc/os.h"
+#include "kodi/os.h"
 #include "client.h"
 #include "pvrclient-argustv.h"
 #include "utils.h"
 #include "argustvrpc.h"
-#include "xbmc/threads/mutex.h"
-#include "xbmc/util/StdString.h"
+#include "kodi/threads/mutex.h"
+#include "kodi/util/StdString.h"
 
 using namespace ADDON;
 

@@ -24,7 +24,7 @@
  */
 
 #include "tools.h"
-#include "xbmc/util/timeutils.h"
+#include "kodi/util/timeutils.h"
 
 using namespace ADDON;
 using namespace PLATFORM;

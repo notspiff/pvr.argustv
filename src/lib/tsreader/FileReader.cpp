@@ -35,7 +35,7 @@
 #include "FileReader.h"
 #include "client.h" //for XBMC->Log
 #include <algorithm> //std::min, std::max
-#include "xbmc/util/timeutils.h" // for usleep
+#include "kodi/util/timeutils.h" // for usleep
 
 using namespace ADDON;
 

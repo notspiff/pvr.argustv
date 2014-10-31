@@ -6,11 +6,11 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${PROJECT_SOURCE_DIR})
 
 enable_language(CXX)
 
-find_package(xbmc REQUIRED)
-find_package(xbmcplatform REQUIRED)
+find_package(kodi REQUIRED)
+find_package(kodiplatform REQUIRED)
 
-include_directories(${xbmcplatform_INCLUDE_DIRS}
-                    ${XBMC_INCLUDE_DIR}
+include_directories(${KODIPLATFORM_INCLUDE_DIRS}
+                    ${KODI_INCLUDE_DIR}
                     ${PROJECT_SOURCE_DIR}/src)
 
 if(NOT WIN32)
@@ -34,7 +34,7 @@ set(ARGUSTV_SOURCES src/activerecording.cpp
                     src/uri.cpp
                     src/utils.cpp)
 
-set(DEPLIBS ${xbmcplatform_LIBRARIES} tsreader)
+set(DEPLIBS ${KODIPLATFORM_LIBRARIES} tsreader)
 
 find_package(JsonCpp REQUIRED)
 list(APPEND DEPLIBS ${JSONCPP_LIBRARIES})

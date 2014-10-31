@@ -20,7 +20,7 @@
 #endif
 
 #include "utils.h"
-#include "xbmc/os.h"
+#include "kodi/os.h"
 #include "client.h" //For XBMC->Log
 #include <string>
 #include <algorithm> // sort
