@@ -45,3 +45,5 @@ include_directories(${INCLUDES})
 add_subdirectory(src/lib/tsreader)
 
 build_addon(pvr.argustv ARGUSTV DEPLIBS)
+
+include(CPack)
